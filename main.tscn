@@ -1,86 +1,61 @@
-[gd_scene load_steps=17 format=3 uid="uid://taa0qmkl57us"]
+[gd_scene load_steps=12 format=3 uid="uid://cxi55cp7abj2n"]
 
-[ext_resource type="Script" uid="uid://b1la5n5l3gp" path="res://main.gd" id="1_7mycd"]
-[ext_resource type="Texture2D" uid="uid://dxmtpvmavcjle" path="res://map.png" id="1_ig7tw"]
-[ext_resource type="Script" uid="uid://cuvdtrvn8p455" path="res://player.gd" id="2_0xm2m"]
-[ext_resource type="Script" uid="uid://f01bwciniy0g" path="res://camera_3d.gd" id="3_h2yge"]
-[ext_resource type="Texture2D" uid="uid://cdc3dfp0knhac" path="res://map2d.png" id="3_lquwl"]
-[ext_resource type="Script" uid="uid://dx1y6favp1dcd" path="res://bot.gd" id="4_1bvp3"]
-[ext_resource type="Script" uid="uid://b3pwuomchltru" path="res://camera_2d.gd" id="6_272bh"]
+[ext_resource type="Script" uid="uid://ubt4gg5sceml" path="res://scripts/main.gd" id="1_0xm2m"]
+[ext_resource type="Texture2D" uid="uid://duvbpe7odm74x" path="res://assets/MarioCircuit3_gray.png" id="1_ig7tw"]
+[ext_resource type="Script" uid="uid://8ugir60mfaid" path="res://scripts/car.gd" id="2_h2yge"]
+[ext_resource type="Texture2D" uid="uid://dypn6dh2pxhon" path="res://assets/MarioCircuit3.png" id="4_1bvp3"]
+[ext_resource type="Script" uid="uid://mwhst3j4nhxt" path="res://scripts/camera_3d.gd" id="5_lquwl"]
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_0xm2m"]
-albedo_texture = ExtResource("1_ig7tw")
-uv1_scale = Vector3(3, 2, 1)
-texture_filter = 0
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_7dm0k"]
+size = Vector2(1, 2)
 
-[sub_resource type="BoxMesh" id="BoxMesh_h2yge"]
-material = SubResource("StandardMaterial3D_0xm2m")
-size = Vector3(256, 1, 256)
+[sub_resource type="QuadMesh" id="QuadMesh_7dm0k"]
+size = Vector2(1, 2)
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_1bvp3"]
-albedo_color = Color(1, 0, 0, 1)
-texture_filter = 0
 
-[sub_resource type="BoxMesh" id="BoxMesh_lquwl"]
+[sub_resource type="BoxMesh" id="BoxMesh_1bvp3"]
 material = SubResource("StandardMaterial3D_1bvp3")
-
-[sub_resource type="QuadMesh" id="QuadMesh_h2yge"]
+size = Vector3(1, 1, 2)
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_lquwl"]
-albedo_color = Color(0, 1, 0, 1)
+albedo_texture = ExtResource("4_1bvp3")
+uv1_scale = Vector3(3, 2, 1)
 
-[sub_resource type="BoxMesh" id="BoxMesh_7mycd"]
+[sub_resource type="BoxMesh" id="BoxMesh_lquwl"]
 material = SubResource("StandardMaterial3D_lquwl")
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_7mycd"]
-
-[sub_resource type="QuadMesh" id="QuadMesh_272bh"]
-material = SubResource("StandardMaterial3D_7mycd")
+size = Vector3(256, 1, 256)
 
 [node name="Main" type="Node"]
-script = ExtResource("1_7mycd")
+script = ExtResource("1_0xm2m")
 
-[node name="Map" type="MeshInstance3D" parent="."]
-transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 0, 0)
-mesh = SubResource("BoxMesh_h2yge")
-
-[node name="Camera3D" type="Camera3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 16, -16)
-fov = 45.0
-script = ExtResource("3_h2yge")
-
-[node name="DirectionalLight3D" type="DirectionalLight3D" parent="Camera3D"]
-
-[node name="Map2" type="Sprite2D" parent="."]
-z_index = -1
-texture = ExtResource("3_lquwl")
-
-[node name="Camera2D" type="Camera2D" parent="."]
-script = ExtResource("6_272bh")
-
-[node name="Player" type="Node" parent="."]
-
-[node name="Player" type="MeshInstance3D" parent="Player"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -104, 1, -15)
-mesh = SubResource("BoxMesh_lquwl")
-skeleton = NodePath("../..")
-
-[node name="Player2d" type="MeshInstance2D" parent="Player"]
-modulate = Color(1, 0, 0, 1)
+[node name="Car" type="CharacterBody2D" parent="."]
 position = Vector2(-104, -14)
-mesh = SubResource("QuadMesh_h2yge")
-script = ExtResource("2_0xm2m")
+script = ExtResource("2_h2yge")
 
-[node name="Bot" type="Node" parent="."]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Car"]
+shape = SubResource("RectangleShape2D_7dm0k")
 
-[node name="A" type="Node" parent="Bot"]
+[node name="MeshInstance2D" type="MeshInstance2D" parent="Car"]
+mesh = SubResource("QuadMesh_7dm0k")
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="Bot/A"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
-mesh = SubResource("BoxMesh_7mycd")
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Car"]
+mesh = SubResource("BoxMesh_1bvp3")
 
-[node name="MeshInstance2D" type="MeshInstance2D" parent="Bot/A"]
-modulate = Color(0, 1, 0, 1)
-position = Vector2(-112, -8)
-mesh = SubResource("QuadMesh_272bh")
-script = ExtResource("4_1bvp3")
+[node name="Track" type="Node" parent="."]
+
+[node name="Sprite2D" type="Sprite2D" parent="Track"]
+z_index = -1
+texture = ExtResource("1_ig7tw")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Track"]
+mesh = SubResource("BoxMesh_lquwl")
+
+[node name="Camera" type="Node" parent="."]
+
+[node name="Camera2D" type="Camera2D" parent="Camera"]
+enabled = false
+zoom = Vector2(4, 4)
+
+[node name="Camera3D" type="Camera3D" parent="Camera"]
+script = ExtResource("5_lquwl")
